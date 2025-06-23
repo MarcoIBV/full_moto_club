@@ -5,20 +5,20 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // USA EL PUERTO QUE ASIGNE RAILWAY O LOCAL 3000
 
+// MIDDLEWARE
+app.use(cors()); // HABILITA CORS
+app.use(bodyParser.json()); // PERMITE PARSEAR JSON
+app.use(express.static('public')); // SIRVE ARCHIVOS ESTÁTICOS DESDE "public"
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static('public'));
-
-// Conexión a MongoDB
-mongoose.connect('mongodb://localhost:27017/Motos',{
-    useNewUrlparser:true,
-    useUnifiedTopology:true
+// CONEXIÓN A MONGODB ATLAS USANDO VARIABLE DE ENTORNO
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
-.then(() => console.log('conectado a mongo'))
-.catch(err => console.error(err));
+.then(() => console.log('CONECTADO A MONGODB ATLAS'))
+.catch(err => console.error('ERROR DE CONEXIÓN:', err));
 
 // Esquemas y Modelos
 
