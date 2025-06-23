@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="MOTO.png">
+    <title>Motos</title>
+    <link rel="stylesheet" href="CSS/motos.css">
+</head>
+<body>
+
+    <!--menu de navegacion-->
+    <div class="menu">
+        <a href="menu.html">menu principal</a>
+        <a href="Factura.html">Facturas</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="Citas.html">Citas</a>
+        <a href="Entregas.html">Entregas</a>
+        <a href="index.html">Cerrar sesion</a>
+    </div>
+         
+    <h2>Lista de motos</h2>
+    
+    <div class="agregar-empleado-container">
+        
+        <h3>Agregar moto</h3>
+        <form id="formMoto" class="form-horizontal">
+      <input type="text" id="Modelo" placeholder="Modelo de la moto" required>
+      <input type="text" id="Marca" placeholder="Marca de la moto" required>
+      <input type="text" id="Velocidad" placeholder="Velocidad maxima" required>
+      <input type="text" id="color" placeholder="Color de moto" required>
+      <button type="submit">Agregar</button>
+        </form>
+    </div>
+
+    <div class="tabla-container">
+        <table id="tablaMoto">
+            <thead>
+                <tr>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Velocidad</th>
+                    <th>Color</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+<script>
+  async function cargarMoto() {
+            const res = await fetch('/api/motos');
+            const Moto = await res.json();
+            const tbody = document.querySelector('#tablaMoto tbody');
+            tbody.innerHTML = Moto.map(p => `
+                <tr>
+                    <td>${p.Modelo}</td>
+                    <td>${p.Marca}</td>
+                    <td>${p.Velocidad}</td>
+                    <td>${p.color}</td>
+                    <td>
+                        <button class="btn-eliminar"
+                         onclick="eliminarMoto('${p._id}')">Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function eliminarMoto(id) {
+            const confirmar = confirm('¿Estás seguro de que deseas eliminar la Moto?');
+            if (!confirmar) return;
+            await fetch(`/api/motos/${id}`, { method: 'DELETE' });
+            cargarMoto();
+        }
+
+        document.getElementById('formMoto').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const Modelo = document.getElementById('Modelo').value;
+            const Marca = document.getElementById('Marca').value;
+            const Velocidad = document.getElementById('Velocidad').value;
+            const color = document.getElementById('color').value;
+            await fetch('/api/motos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Modelo, Marca, Velocidad, color })
+            });
+            document.getElementById('formMoto').reset();
+            cargarMoto();
+        });
+
+        cargarMoto();
+
+        window.eliminarMoto = eliminarMoto;
+</script>
+
+</body>
+</html>

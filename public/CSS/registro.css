@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Asegura que ocupe al menos el 100% de la altura de la ventana */
+    background-color: #4c15a4; /* Un color de fondo suave para la página */
+}
+
+.principal {
+    display: flex; /* Habilita Flexbox para colocar los paneles lado a lado */
+    width: 90%; /* Ancho total del contenedor principal */
+    max-width: 1000px; /* Ancho máximo para pantallas grandes */
+    border-radius: 15px; /* Bordes redondeados para el contenedor */
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente al contenido */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra para dar un efecto flotante */
+}
+
+.formulario {
+    background-color: #5a005a; /* Color morado oscuro para el fondo del formulario (panel izquierdo) */
+    padding: 40px;
+    color: white;
+    flex: 1; /* Permite que el formulario ocupe el espacio disponible */
+    display: flex;
+    flex-direction: column; /* Organiza los elementos del formulario en columna */
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    text-align: center;
+}
+
+.formulario h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    font-family: 'Georgia', serif; /* Tipo de fuente para el título */
+}
+
+.formulario label {
+    display: block; /* Hace que la etiqueta ocupe su propia línea */
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: left; /* Alinea el texto de la etiqueta a la izquierda */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 300px; /* Ancho máximo para las etiquetas */
+}
+
+.formulario input[type="text"],
+.formulario input[type="email"],
+.formulario input[type="password"] {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 300px; /* Ancho máximo para los campos de entrada */
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box; /* Incluye padding en el ancho total */
+    background-color: #fff; /* Fondo blanco para los campos */
+    color: #333;
+    font-size: 1em;
+    margin-bottom: 10px; /* Espacio debajo de cada campo */
+}
+
+.formulario button[type="submit"],
+.formulario .btn { /* Estilos para ambos botones */
+    display: block;
+    width: 100%;
+    max-width: 300px; /* Ancho máximo para los botones */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 15px; /* Espacio entre los botones */
+    transition: background-color 0.3s ease; /* Transición suave al pasar el mouse */
+    color: white;
+}
+
+.formulario button[type="submit"] {
+    background-color: #a000a0; /* Color morado más claro para el botón "Registrarse" */
+}
+
+.formulario button[type="submit"]:hover {
+    background-color: #800080;
+}
+
+.formulario .btn { /* Para el botón "regresar" */
+    background-color: #8a008a; /* Color morado intermedio para el botón "regresar" */
+}
+
+.formulario .btn:hover {
+    background-color: #7a007a;
+}
+
+/* Estilos para la sección de la imagen (panel derecho) */
+.imagen {
+    background-color: #33cef5; /* Color rosa vibrante para el fondo de la imagen */
+    flex: 1; /* Permite que la imagen ocupe el espacio disponible */
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna (imagen y texto si hubiera) */
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    padding: 40px;
+    text-align: center;
+}
+
+.imagen img {
+    max-width: 100%; /* Asegura que la imagen no se desborde del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    display: block; /* Elimina el espacio extra que a veces añaden las imágenes */
+}
+
+/* Media Queries para hacer la página responsiva en pantallas más pequeñas */
+@media (max-width: 768px) {
+    .principal {
+        flex-direction: column; /* Apila los paneles verticalmente en pantallas pequeñas */
+        width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+        border-radius: 0; /* Elimina los bordes redondeados para ocupar toda la pantalla */
+    }
+
+    .formulario, .imagen {
+        padding: 30px 20px; /* Reduce el padding en pantallas pequeñas */
+        flex: auto; /* Permite que los paneles se ajusten al contenido */
+    }
+
+    .formulario h2 {
+        font-size: 1.8em; /* Ajusta el tamaño del título */
+    }
+
+    .formulario label,
+    .formulario input[type="text"],
+    .formulario input[type="email"],
+    .formulario input[type="password"],
+    .formulario button[type="submit"],
+    .formulario .btn {
+        max-width: 100%; /* Los elementos del formulario ocupan todo el ancho disponible */
+    }
+}

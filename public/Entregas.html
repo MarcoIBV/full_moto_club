@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="MOTO.png">
+    <title>Citas</title>
+    <link rel="stylesheet" href="CSS/entrega.css">
+</head>
+<body>
+
+    <!--menu de navegacion-->
+    <div class="menu">
+        <a href="menu.html">menu principal</a>
+        <a href="Factura.html">Facturas</a>
+        <a href="Cliente.html">Clientes</a>
+        <a href="Citas.html">Citas</a>
+        <a href="Moto.html">Motos</a>
+        <a href="index.html">Cerrar sesion</a>
+    </div>
+         
+    <h2>Lista de entregas</h2>
+    
+    <div class="agregar-empleado-container">
+        
+        <h3>Agregar Entrega</h3>
+        <form id="formEntrega" class="form-horizontal">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="text" id="hora" placeholder="Hora" required>
+      <input type="text" id="fecha" placeholder="Fecha" required>
+      <button type="submit">Agregar</button>
+        </form>
+    </div>
+
+    <div class="tabla-container">
+        <table id="tablaEntrega">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Hora</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+<script>
+  async function cargarEntregas() {
+            const res = await fetch('/api/entregas');
+            const Entrega = await res.json();
+            const tbody = document.querySelector('#tablaEntrega tbody');
+            tbody.innerHTML = Entrega.map(p => `
+                <tr>
+                    <td>${p.nombre}</td>
+                    <td>${p.hora}</td>
+                    <td>${p.fecha}</td>
+                    <td>
+                        <button class="btn-eliminar"
+                         onclick="eliminarEntrega('${p._id}')">Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function eliminarEntrega(id) {
+            const confirmar = confirm('¿Estás seguro de que deseas eliminar la entrega?');
+            if (!confirmar) return;
+            await fetch(`/api/entregas/${id}`, { method: 'DELETE' });
+            cargarEntregas();
+        }
+
+        document.getElementById('formEntrega').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value;
+            const hora = document.getElementById('hora').value;
+            const fecha = document.getElementById('fecha').value;
+            await fetch('/api/entregas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre, hora, fecha })
+            });
+            document.getElementById('formEntrega').reset();
+            cargarEntregas();
+        });
+
+        cargarEntregas();
+
+        window.eliminarEntrega = eliminarEntrega;
+</script>
+
+</body>
+</html>
